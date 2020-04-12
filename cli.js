@@ -7,17 +7,24 @@ const fetchRepos = require('./fetchRepos')
 const argv = yargs
   .option('platform', {
     alias: 'p',
-    describe: 'Specify your platform(Github/Gitlab/Both)'
+    describe: 'Specify your platform(Github/Gitlab/Both)',
+    type: 'string'
   })
   .option('username', {
     alias: 'u',
-    describe: 'Specify your username'
+    describe: 'Specify your username',
+    type: 'string'
   })
   .option('remove-each-repo', {
     alias: 'rep',
     describe: 'Removes each repo after creating a report',
     type: 'boolean',
     default: true
+  })
+  .option('debug', {
+    alias: 'dbg',
+    describe: 'Logs full error stack to console',
+    type: 'boolean'
   })
   .demandOption(['platform', 'username'], 'Please provide platform and username arguments to run the program')
   .help()
@@ -30,14 +37,14 @@ const rep = argv.rep
 async function fetchAndCount() {
   let repos = []
   if (platform == 'github') {
-    repos = await fetchRepos.fetchGithub(user)
+    repos = await fetchRepos.fetchGithub(user, argv.dbg)
     cloneAndCount(repos)
   } else if (platform == 'gitlab') {
-    repos = await fetchRepos.fetchGitlab(user)
+    repos = await fetchRepos.fetchGitlab(user, argv.dbg)
     cloneAndCount(repos)
   } else if (platform == 'both') {
-    hubRepos = await fetchRepos.fetchGithub(user)
-    labRepos = await fetchRepos.fetchGitlab(user)
+    hubRepos = await fetchRepos.fetchGithub(user, argv.dbg)
+    labRepos = await fetchRepos.fetchGitlab(user, argv.dbg)
     repos = hubRepos.concat(labRepos)
     cloneAndCount(repos)
   } else {

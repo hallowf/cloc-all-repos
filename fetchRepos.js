@@ -1,15 +1,15 @@
 const axios = require('axios')
 
 module.exports = {
-  fetchGithub: function(username) {
-    return fetchGithub(username)
+  fetchGithub: function(username, dbg) {
+    return fetchGithub(username, dbg)
   },
-  fetchGitlab: function(username) {
-    return fetchGitlab(username)
+  fetchGitlab: function(username, dbg) {
+    return fetchGitlab(username, dbg)
   }
 }
 
-async function fetchGithub(username) {
+async function fetchGithub(username, dbg) {
   let repos = []
   console.log('Fetching Github repos')
   await axios.get(`https://api.github.com/users/${username}/repos`)
@@ -31,13 +31,15 @@ async function fetchGithub(username) {
     .catch(err => {
       console.error(err.message)
       console.log('Github API might be down, or the username you provided is invalid')
+      if (dbg) {console.error(err)}
       process.exit(1)
     })
 
   return repos
 }
 
-async function fetchGitlab(username) {
+async function fetchGitlab(username, dbg) {
+  console.log(dbg)
   let repos = []
   console.log('Fetching Gitlab repos')
   await axios.get(`https://gitlab.com/api/v4/users/${username}/projects`)
@@ -59,6 +61,7 @@ async function fetchGitlab(username) {
     .catch(err => {
       console.error(err.message)
       console.log('Gitlab API might be down, or the username you provided is invalid')
+      if (dbg) {console.error(err)}
       process.exit(1)
     })
 
