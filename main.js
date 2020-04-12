@@ -12,12 +12,18 @@ const argv = yargs
     alias: 'u',
     describe: 'Specify your username'
   })
+  .option('remove-each-repo', {
+    alias: 'rep',
+    describe: 'Removes each repo after creating a report',
+    type: 'boolean'
+  })
   .demandOption(['platform', 'username'], 'Please provide platform and usernamearguments to run the program')
   .help()
   .argv
 
 const platform = argv.p.toLowerCase()
 const user = argv.u
+const rep = argv.rep
 
 async function fetchAndCount() {
   let repos = []
@@ -31,7 +37,7 @@ async function fetchAndCount() {
 }
 
 function cloneAndCount(repoList) {
-  console.log('creating temp directory')
+  console.log('Creating temp directory')
   shell.mkdir('temp')
   shell.cd('temp')
   let reportFiles = []
@@ -41,11 +47,15 @@ function cloneAndCount(repoList) {
     console.log("Creating report")
     shell.exec(`cloc ${item.name} --report-file=${item.name}.txt`, {silent: true})
     reportFiles.push(`${item.name}.txt`)
+    if (rep) {
+      console.log(`Removing ${item.name}`)
+      shell.rm('-rf', item.name)
+    }
   });
 
   allFilesString = reportFiles.join(' ')
 
-  console.log('Joining reports, might take a while')
+  console.log('Joining reports, this might take a while')
   shell.exec(`cloc --sum-reports --report_file=../${platform}${user} ${allFilesString}`)
   shell.cd('..')
   console.log('removing temp directory')
