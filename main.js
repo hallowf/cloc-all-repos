@@ -1,6 +1,6 @@
 const readline = require('readline')
 const shell = require('shelljs')
-const fetchGithub = require('./fetchGithub')
+const fetchRepos = require('./fetchRepos')
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -18,7 +18,7 @@ function fetchAndCount() {
     if (platform.toLowerCase() == 'github') {
       rl.question('What is your username ? ', async function(username) {
         user = username
-        repos = await fetchGithub.fetchRepos(username)
+        repos = await fetchRepos.fetchGithub(username)
         cloneAndCount(repos)
       })
     }
