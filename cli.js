@@ -1,4 +1,5 @@
-const readline = require('readline')
+#!/usr/bin/env node
+
 const shell = require('shelljs')
 const yargs = require('yargs')
 const fetchRepos = require('./fetchRepos')
