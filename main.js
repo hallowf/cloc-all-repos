@@ -6,7 +6,7 @@ const fetchRepos = require('./fetchRepos')
 const argv = yargs
   .option('platform', {
     alias: 'p',
-    describe: 'Specify your platform(Github/Gitlab)'
+    describe: 'Specify your platform(Github/Gitlab/Both)'
   })
   .option('username', {
     alias: 'u',
@@ -33,6 +33,11 @@ async function fetchAndCount() {
   } else if (platform == 'gitlab') {
     repos = await fetchRepos.fetchGitlab(user)
     cloneAndCount(repos)
+  } else if (platform == 'both') {
+    hubRepos = await fetchRepos.fetchGithub(user)
+    labRepos = await fetchRepos.fetchGitlab(user)
+    repos = hubRepos.concat(labRepos)
+    cloneAndCount(repos)
   }
 }
 
@@ -56,6 +61,7 @@ function cloneAndCount(repoList) {
   allFilesString = reportFiles.join(' ')
 
   console.log('Joining reports, this might take a while')
+  // Join all reports
   shell.exec(`cloc --sum-reports --report_file=../${platform}${user} ${allFilesString}`)
   shell.cd('..')
   console.log('removing temp directory')

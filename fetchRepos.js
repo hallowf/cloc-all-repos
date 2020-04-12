@@ -11,7 +11,7 @@ module.exports = {
 
 async function fetchGithub(username) {
   let repos = []
-
+  console.log('Fetching Github repos')
   await axios.get(`https://api.github.com/users/${username}/repos`)
     .then(res => {
       data = res.data
@@ -32,6 +32,7 @@ async function fetchGithub(username) {
 
 async function fetchGitlab(username) {
   let repos = []
+  console.log('Fetching Gitlab repos')
   await axios.get(`https://gitlab.com/api/v4/users/${username}/projects`)
     .then(res => {
       data = res.data
