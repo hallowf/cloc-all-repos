@@ -1,8 +1,8 @@
 {
   "name": "@hallowf/cloc-all-repos",
   "version": "1.1.0",
-  "description": "count lines of code across all repos",
-  "main": "main.js",
+  "description": "Count lines of code across all repos from Github, Gitlab or both",
+  "main": "cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,5 +23,11 @@
   },
   "bin": {
     "cloc-all-repos": "./cli.js"
-  }
+  },
+  "keywords": [
+    "count lines of code",
+    "cloc",
+    "github",
+    "gitlab"
+  ]
 }
