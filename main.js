@@ -16,13 +16,16 @@ const argv = yargs
   .help()
   .argv
 
-const platform = argv.p
+const platform = argv.p.toLowerCase()
 const user = argv.u
 
 async function fetchAndCount() {
   let repos = []
-  if (platform.toLowerCase() == 'github') {
+  if (platform == 'github') {
     repos = await fetchRepos.fetchGithub(user)
+    cloneAndCount(repos)
+  } else if (platform == 'gitlab') {
+    repos = await fetchRepos.fetchGitlab(user)
     cloneAndCount(repos)
   }
 }
