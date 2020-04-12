@@ -14,14 +14,18 @@ async function fetchGithub(username) {
   console.log('Fetching Github repos')
   await axios.get(`https://api.github.com/users/${username}/repos`)
     .then(res => {
-      data = res.data
-      data.forEach((item, i) => {
-        repoData = {
-          url: item.html_url,
-          name: item.name
-        }
-        repos.push(repoData)
-      });
+      if (res.status == 200) {
+        data = res.data
+        data.forEach((item, i) => {
+          repoData = {
+            url: item.html_url,
+            name: item.name
+          }
+          repos.push(repoData)
+        });
+      } else {
+        console.error(`Server status code: ${res.status}`)
+      }
     })
     .catch(err => {
       console.error(err)
@@ -35,14 +39,18 @@ async function fetchGitlab(username) {
   console.log('Fetching Gitlab repos')
   await axios.get(`https://gitlab.com/api/v4/users/${username}/projects`)
     .then(res => {
-      data = res.data
-      data.forEach((item, i) => {
-        repoData = {
-          url: item.http_url_to_repo,
-          name: item.name
-        }
-        repos.push(repoData)
-      });
+      if (res.status == 200) {
+        data = res.data
+        data.forEach((item, i) => {
+          repoData = {
+            url: item.http_url_to_repo,
+            name: item.name
+          }
+          repos.push(repoData)
+        });
+      } else {
+        console.error(`Server status code: ${res.status}`)
+      }
     })
     .catch(err => {
       console.error(err)
