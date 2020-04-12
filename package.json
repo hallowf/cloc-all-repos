@@ -1,0 +1,23 @@
+{
+  "name": "cloc-all-repos",
+  "version": "0.0.1",
+  "description": "count lines of code across all repos",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hallowf/cloc-all-repos.git"
+  },
+  "author": "hallowf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hallowf/cloc-all-repos/issues"
+  },
+  "homepage": "https://github.com/hallowf/cloc-all-repos#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "shelljs": "^0.8.3"
+  }
+}
