@@ -1,6 +1,6 @@
 {
   "name": "@hallowf/cloc-all-repos",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "count lines of code across all repos",
   "main": "main.js",
   "scripts": {
