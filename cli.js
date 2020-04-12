@@ -42,6 +42,7 @@ async function fetchAndCount() {
     cloneAndCount(repos)
   } else {
     console.error(`Invalid platform: ${platform}`)
+    process.exit(1)
   }
 }
 

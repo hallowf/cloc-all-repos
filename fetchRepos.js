@@ -25,10 +25,13 @@ async function fetchGithub(username) {
         });
       } else {
         console.error(`Server status code: ${res.status}`)
+        process.exit(1)
       }
     })
     .catch(err => {
-      console.error(err)
+      console.error(err.message)
+      console.log('Github API might be down, or the username you provided is invalid')
+      process.exit(1)
     })
 
   return repos
@@ -50,10 +53,13 @@ async function fetchGitlab(username) {
         });
       } else {
         console.error(`Server status code: ${res.status}`)
+        process.exit(1)
       }
     })
     .catch(err => {
-      console.error(err)
+      console.error(err.message)
+      console.log('Gitlab API might be down, or the username you provided is invalid')
+      process.exit(1)
     })
 
   return repos
