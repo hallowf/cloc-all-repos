@@ -16,9 +16,10 @@ const argv = yargs
   .option('remove-each-repo', {
     alias: 'rep',
     describe: 'Removes each repo after creating a report',
-    type: 'boolean'
+    type: 'boolean',
+    default: true
   })
-  .demandOption(['platform', 'username'], 'Please provide platform and usernamearguments to run the program')
+  .demandOption(['platform', 'username'], 'Please provide platform and username arguments to run the program')
   .help()
   .argv
 
@@ -39,6 +40,8 @@ async function fetchAndCount() {
     labRepos = await fetchRepos.fetchGitlab(user)
     repos = hubRepos.concat(labRepos)
     cloneAndCount(repos)
+  } else {
+    console.error(`Invalid platform: ${platform}`)
   }
 }
 
