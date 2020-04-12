@@ -18,6 +18,7 @@
   "homepage": "https://github.com/hallowf/cloc-all-repos#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "yargs": "^15.3.1"
   }
 }

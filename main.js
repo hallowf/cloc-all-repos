@@ -1,38 +1,39 @@
 const readline = require('readline')
 const shell = require('shelljs')
+const yargs = require('yargs')
 const fetchRepos = require('./fetchRepos')
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
-
-let chosenPlatform = ''
-let user = ''
-
-function fetchAndCount() {
-  let repos = []
-  console.log('asking question')
-  rl.question('Github or Gitlab ? ', function(platform) {
-    chosenPlatform = platform
-    if (platform.toLowerCase() == 'github') {
-      rl.question('What is your username ? ', async function(username) {
-        user = username
-        repos = await fetchRepos.fetchGithub(username)
-        cloneAndCount(repos)
-      })
-    }
+const argv = yargs
+  .option('platform', {
+    alias: 'p',
+    describe: 'Specify your platform(Github/Gitlab)'
   })
+  .option('username', {
+    alias: 'u',
+    describe: 'Specify your username'
+  })
+  .demandOption(['platform', 'username'], 'Please provide platform and usernamearguments to run the program')
+  .help()
+  .argv
+
+const platform = argv.p
+const user = argv.u
+
+async function fetchAndCount() {
+  let repos = []
+  if (platform.toLowerCase() == 'github') {
+    repos = await fetchRepos.fetchGithub(user)
+    cloneAndCount(repos)
+  }
 }
 
 function cloneAndCount(repoList) {
   console.log('creating temp directory')
-  shell.mkdir('./temp')
-  shell.cd('./temp')
+  shell.mkdir('temp')
+  shell.cd('temp')
   let reportFiles = []
   repoList.forEach((item, i) => {
-    console.log(`Cloning ${item.name}`)
-    shell.exec('git clone ' + item.url, {silent: true})
+    shell.exec('git clone ' + item.url)
     // count lines and make a report file
     console.log("Creating report")
     shell.exec(`cloc ${item.name} --report-file=${item.name}.txt`, {silent: true})
@@ -42,11 +43,11 @@ function cloneAndCount(repoList) {
   allFilesString = reportFiles.join(' ')
 
   console.log('Joining reports, might take a while')
-  shell.exec(`cloc --sum-reports --report_file=../${chosenPlatform}${user} ${allFilesString}`)
+  shell.exec(`cloc --sum-reports --report_file=../${platform}${user} ${allFilesString}`)
+  shell.cd('..')
   console.log('removing temp directory')
   shell.rm('-rf', './temp')
   process.exit(0)
 }
-
 
 fetchAndCount()
