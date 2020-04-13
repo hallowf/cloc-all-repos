@@ -1,6 +1,6 @@
 {
   "name": "@hallowf/cloc-all-repos",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Count lines of code across all repos from Github, Gitlab or both",
   "main": "cli.js",
   "scripts": {
